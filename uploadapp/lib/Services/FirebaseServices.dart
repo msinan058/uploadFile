@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,8 +12,8 @@ class FireStoreDBServices {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future<List<FileModel>> getList() async {
-    QuerySnapshot<Map<String, dynamic>> fileList = await firestore.collection("fileList").get();
+  Future<List<FileModel>> getList(FileType fileType) async {
+    QuerySnapshot<Map<String, dynamic>> fileList = await firestore.collection(fileType.toString()).get();
     List<FileModel> fileModelList = [];
     for (var document in fileList.docs) {
       Map<String, dynamic> file = document.data();
@@ -23,14 +25,14 @@ class FireStoreDBServices {
     return fileModelList;
   }
 
- Future<bool> fileUpload() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+  Future<bool> fileUpload({required double maxsize, required FileType fileType}) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(type: fileType);
 
     if (result != null) {
       PlatformFile file = result.files.first;
       String fileName = file.name;
-      int size =file.size;
-      if(size>1048576) return false; //1mb
+      int size = file.size;
+      if (size > maxsize * 1048576) return false; //1mb = 1048576 bit
       var imageRef = FirebaseStorage.instance.ref("files/$fileName");
       var task = imageRef.putFile(File(file.path!));
       task.whenComplete(() async {
@@ -40,7 +42,8 @@ class FireStoreDBServices {
         fileInfo["fileSize"] = size;
         fileInfo["uploadTime"] = FieldValue.serverTimestamp();
         fileInfo["url"] = url;
-        await firestore.collection("fileList").add(fileInfo);
+        fileInfo["fileType"] = fileType.toString();
+        await firestore.collection(fileType.toString()).add(fileInfo);
         return true;
       });
     }

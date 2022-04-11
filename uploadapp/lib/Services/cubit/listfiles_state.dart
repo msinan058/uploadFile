@@ -6,7 +6,11 @@ abstract class ListfilesState {}
 class ListfilesInitial extends ListfilesState {}
 
 class ListfilesLoaded extends ListfilesState {
-  final List<FileModel> fileList;
-  ListfilesLoaded(this.fileList);
-   List<Object> get props => [fileList];
+  final List<FileModel> anyFileList;
+    final List<FileModel> imageFileList;
+
+  final List<FileModel> audioFileList;
+
+  ListfilesLoaded(this.anyFileList,this.imageFileList,this.audioFileList);
+   List<Object> get props => [anyFileList,imageFileList,audioFileList];
 }
