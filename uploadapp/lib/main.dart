@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -39,8 +38,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-
   int selectedindex = 0;
   List<Widget> tabList = [];
   @override
@@ -75,6 +72,4 @@ class _MyHomePageState extends State<MyHomePage> {
       body: tabList[selectedindex],
     );
   }
-
-
 }

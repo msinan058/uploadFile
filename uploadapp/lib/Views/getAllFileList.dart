@@ -34,7 +34,7 @@ class _ListPageState extends State<ListPage> {
               ),
             );
           }
-          if (state is ListfilesInitial) {
+          if (state is ListfilesLoading) {
             return const Center(
                 child: CircularProgressIndicator(
               backgroundColor: Colors.amber,

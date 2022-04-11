@@ -3,7 +3,7 @@ part of 'listfiles_cubit.dart';
 @immutable
 abstract class ListfilesState {}
 
-class ListfilesInitial extends ListfilesState {}
+class ListfilesLoading extends ListfilesState {}
 
 class ListfilesLoaded extends ListfilesState {
   final List<FileModel> anyFileList;

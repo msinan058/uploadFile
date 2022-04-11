@@ -7,14 +7,14 @@ import 'package:uploadapp/Services/FirebaseServices.dart';
 part 'listfiles_state.dart';
 
 class ListfilesCubit extends Cubit<ListfilesState> {
-  ListfilesCubit() : super(ListfilesInitial());
+  ListfilesCubit() : super(ListfilesLoading());
 
   List<FileModel> anyFileList = [];
   List<FileModel> imageFileList = [];
   List<FileModel> audioFileList = [];
 
   Future<void> getFileList() async {
-    emit(ListfilesInitial());
+    emit(ListfilesLoading());
     anyFileList = await FireStoreDBServices().getList(FileType.any);
         imageFileList = await FireStoreDBServices().getList(FileType.image);
 
